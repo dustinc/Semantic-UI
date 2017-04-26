@@ -39,6 +39,8 @@ module.exports = function(gulp) {
     globs      = config.globs,
     assets     = config.paths.assets,
     output     = config.paths.output,
+    jsout      = output.js || output.packaged,
+    cssout     = output.css || output.packaged,
 
     banner     = tasks.banner,
     filenames  = tasks.filenames,
@@ -58,7 +60,7 @@ module.exports = function(gulp) {
       .pipe(concatCSS(filenames.concatenatedCSS, settings.concatCSS))
         .pipe(gulpif(config.hasPermission, chmod(config.permission)))
         .pipe(header(banner, settings.header))
-        .pipe(gulp.dest(output.packaged))
+        .pipe(gulp.dest(cssout))
         .pipe(print(log.created))
     ;
   });
@@ -72,7 +74,7 @@ module.exports = function(gulp) {
         .pipe(gulpif(config.hasPermission, chmod(config.permission)))
         .pipe(minifyCSS(settings.concatMinify))
         .pipe(header(banner, settings.header))
-        .pipe(gulp.dest(output.packaged))
+        .pipe(gulp.dest(cssout))
         .pipe(print(log.created))
     ;
   });
@@ -85,7 +87,7 @@ module.exports = function(gulp) {
       .pipe(concat(filenames.concatenatedJS))
         .pipe(header(banner, settings.header))
         .pipe(gulpif(config.hasPermission, chmod(config.permission)))
-        .pipe(gulp.dest(output.packaged))
+        .pipe(gulp.dest(jsout))
         .pipe(print(log.created))
     ;
   });
@@ -99,7 +101,7 @@ module.exports = function(gulp) {
         .pipe(uglify(settings.concatUglify))
         .pipe(header(banner, settings.header))
         .pipe(gulpif(config.hasPermission, chmod(config.permission)))
-        .pipe(gulp.dest(output.packaged))
+        .pipe(gulp.dest(jsout))
         .pipe(print(log.created))
     ;
   });
@@ -117,7 +119,7 @@ module.exports = function(gulp) {
         .pipe(concatCSS(filenames.concatenatedRTLCSS, settings.concatCSS))
           .pipe(gulpif(config.hasPermission, chmod(config.permission)))
           .pipe(header(banner, settings.header))
-          .pipe(gulp.dest(output.packaged))
+          .pipe(gulp.dest(cssout))
           .pipe(print(log.created))
       ;
     });
@@ -130,7 +132,7 @@ module.exports = function(gulp) {
           .pipe(gulpif(config.hasPermission, chmod(config.permission)))
           .pipe(minifyCSS(settings.concatMinify))
           .pipe(header(banner, settings.header))
-          .pipe(gulp.dest(output.packaged))
+          .pipe(gulp.dest(cssout))
           .pipe(print(log.created))
       ;
     });
